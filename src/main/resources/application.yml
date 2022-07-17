@@ -1,0 +1,10 @@
+spring:
+  data:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mariadb://localhost:3306/mercadolivro?createDatabaseIfNotExist=true
+    username: root
+    password: Gbr123!
+    driver-class-name: org.mariadb.jdbc.Driver
