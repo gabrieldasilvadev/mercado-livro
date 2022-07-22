@@ -9,33 +9,32 @@ class CustomerService(
     val customerRepository: CustomerRepository
 ) {
 
-    val costumers = mutableListOf<CustomerModel>()
-
     fun getAllCostumers(name: String?): List<CustomerModel> {
         name?.let {
-            return costumers.filter { it.name.contains(name, true)};
+            return customerRepository.findByNameContaining(it);
         }
-        return costumers;
+        return customerRepository.findAll().toList();
     }
 
     fun create(customer: CustomerModel) {
-        println(customer)
         customerRepository.save(customer);
     }
 
-    fun getCostumer(customer: CustomerModel): CustomerModel {
-        return costumers.first { it.id == customer.id };
+    fun getById(id: Int): CustomerModel {
+        return customerRepository.findById(id).orElseThrow();
     }
 
     fun putCostumer(customer: CustomerModel) {
-        val costumerFiltred = costumers.first { it.id == customer.id };
-        costumerFiltred.let {
-            it.name = customer.name;
-            it.email = customer.email;
+        if(!customerRepository.existsById(customer.id!!)) {
+            throw Exception();
         }
+        customerRepository.save(customer)
     }
 
     fun deleteCostumer(id: Int) {
-        costumers.removeIf { it.id == id };
+       if(!customerRepository.existsById(id)) {
+           throw Exception();
+       }
+        customerRepository.deleteById(id)
     }
 }
