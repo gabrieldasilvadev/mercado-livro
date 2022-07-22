@@ -1,8 +1,9 @@
 package com.mercadolivro.controller
 
+import com.mercadolivro.controller.request.PostCustomerRequest
+import com.mercadolivro.controller.request.PutCustomerRequest
 import com.mercadolivro.extension.toCostumerModel
 import com.mercadolivro.model.CustomerModel
-import com.mercadolivro.request.*
 import com.mercadolivro.services.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -25,8 +26,8 @@ class CustomerController(
     }
 
     @GetMapping("/{id}")
-    fun getCostumer(@PathVariable id: Int, @RequestBody customer: GetCustomerRequest): CustomerModel {
-        return costumerService.getCostumer(customer.toCostumerModel(id));
+    fun getCostumer(@PathVariable id: Int): CustomerModel {
+        return costumerService.getById(id);
     }
 
     @PutMapping("/{id}")
