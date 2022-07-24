@@ -11,34 +11,35 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/costumers")
 class CustomerController(
-    val costumerService: CustomerService
+    val customerService: CustomerService
 ) {
 
     @GetMapping
     fun getAllCostumers(@RequestParam name: String?): List<CustomerModel> {
-        return costumerService.getAllCostumers(name);
+        return customerService.getAllCostumers(name);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody customer: PostCustomerRequest) {
-        costumerService.create(customer.toCostumerModel());
+        customerService.create(customer.toCostumerModel());
     }
 
     @GetMapping("/{id}")
     fun getCostumer(@PathVariable id: Int): CustomerModel {
-        return costumerService.getById(id);
+        return customerService.findById(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun putCostumer(@PathVariable id: Int, @RequestBody customer: PutCustomerRequest) {
-        costumerService.putCostumer(customer.toCostumerModel(id));
+        val customerSaved = customerService.findById(id);
+        customerService.putCostumer(customer.toCostumerModel(customerSaved));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteCostumer(@PathVariable id: Int) {
-        costumerService.deleteCostumer(id)
+        customerService.deleteCostumer(id)
     }
 }
