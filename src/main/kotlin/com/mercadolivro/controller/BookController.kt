@@ -4,7 +4,6 @@ import com.mercadolivro.controller.request.PostBookRequest
 import com.mercadolivro.controller.request.PutBookRequest
 import com.mercadolivro.extension.toBookModel
 import com.mercadolivro.model.BookModel
-import com.mercadolivro.repository.BookRepository
 import com.mercadolivro.services.BookService
 import com.mercadolivro.services.CustomerService
 import org.springframework.http.HttpStatus
@@ -20,7 +19,7 @@ class BookController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody request: PostBookRequest) {
-        val customer = customerService.getById(request.customerId);
+        val customer = customerService.findById(request.customerId);
         bookService.create(request.toBookModel(customer))
     }
 
